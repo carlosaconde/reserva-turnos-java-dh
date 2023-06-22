@@ -2,11 +2,11 @@ window.addEventListener('load', function () {
 
     //Al cargar la pagina buscamos y obtenemos el formulario donde estarán
     //los datos que el usuario cargará de la nueva pelicula
-    const formulario = document.querySelector('#add_new_paciente');
+    const formularioPaciente = document.querySelector('#add_new_paciente');
 
     //Ante un submit del formulario se ejecutará la siguiente funcion
-    formulario.addEventListener('submit', function (event) {
-
+    formularioPaciente.addEventListener('submit', function (event) {
+         event.preventDefault();
        //creamos un JSON que tendrá los datos de la nueva película
         const formData = {
             nombre: document.querySelector('#nombre').value,
@@ -70,12 +70,12 @@ window.addEventListener('load', function () {
          document.querySelector('#provincia').value = "";
 
     }
-
+console.log("hola estoy dentro de paceintes");
     (function(){
         let pathname = window.location.pathname;
         if(pathname === "/pacientesPost.html"){
             document.querySelector(".nav .nav-item a:first").addClass("active");
-        } else if (pathname == "/pacienteslist.html") {
+        } else if (pathname == "/pacientesList.html") {
             document.querySelector(".nav .nav-item a:last").addClass("active");
         }
     })();

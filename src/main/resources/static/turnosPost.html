@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Alta odontólogos</title>
+    <title>Alta Turnos</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/odontologo/odontologosPost.js"></script>
+    <script type="text/javascript"  src="/js/turno/turnosPost.js"></script>
 </head>
 <body>
 
@@ -21,12 +21,12 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownOdontologos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Gestión de Odontólogos
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownturnos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Gestión de Turnos
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/odontologosList.html">Listar odontólogos</a>
-                    <a class="dropdown-item" href="/odontologosPost.html">Agregar odontólogo</a>
+                    <a class="dropdown-item" href="/turnosList.html">Listar turno</a>
+                    <a class="dropdown-item" href="/turnosPost.html">Agregar turno</a>
 
                 </div>
             </li>
@@ -40,31 +40,37 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-7" style="background-color:#e6fffa; padding:10px; border-radius:3px">
-            <h3>Agregar Odontólogo</h3>
-            <form id="add_new_odontologo">
+            <h3>Agregar Turno</h3>
+            <form id="add_new_turno">
                 <div class="form-group">
-                    <label class="control-label" for="apellido">Apellido:</label>
-                    <input type="text" class="form-control" id="apellido"
-                           placeholder="Ingrese el apellido"
-                           name="apellido" required></input>
+                    <label class="control-label" for="paciente">Paciente:</label>
+                    <input type="number" class="form-control" id="paciente"
+
+                           name="paciente" required></input>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="nombre">Nombre:</label>
-                    <input type="text" class="form-control" id="nombre"
+                    <label class="control-label" for="odontologo">Odontologo:</label>
+                    <input type="number" class="form-control" id="odontologo"
 
-                           name="nombre" required></input>
+                           name="odontologo" required></input>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="matricula">Matrícula:</label>
-                    <input type="number" class="form-control" id="matricula"
+                    <label class="control-label" for="fechaTurno">Fecha: yyyy-mm-dd</label>
+                    <input type="text" class="form-control" id="fechaTurno"
 
-                           name="matricula" required></input>
+                           name="fechaTurno" required></input>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="hora">Hora:</label>
+                    <input type="text" class="form-control" id="hora"
+
+                           name="hora" required></input>
                 </div>
 
 
                 <button type="submit" class="btn btn-primary"
-                        id="btn-add-new-odontologo">Guardar</button>
+                        id="btn-add-new-turno">Guardar</button>
             </form>
             <div id="response" style="display:none; margin-top:10px">
             </div>

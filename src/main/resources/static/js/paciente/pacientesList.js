@@ -14,6 +14,7 @@ window.addEventListener('load', function () {
 
       //recorremos la colección de peliculas del JSON
          for(paciente of data){
+            console.log(paciente)
             //por cada pelicula armaremos una fila de la tabla
             //cada fila tendrá un id que luego nos permitirá borrar la fila si eliminamos la pelicula
             var table = document.getElementById("pacienteTable");

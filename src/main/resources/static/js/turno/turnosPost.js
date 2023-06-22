@@ -1,22 +1,28 @@
 window.addEventListener('load', function () {
 
     //Al cargar la pagina buscamos y obtenemos el formulario donde estarán
-    //los datos que el usuario cargará de la nueva pelicula
-    const formulario = document.querySelector('#add_new_odontologo');
+    //los datos que el usuario cargará del nuevo turno
+    const formularioTurno = document.querySelector('#add_new_turno');
 
     //Ante un submit del formulario se ejecutará la siguiente funcion
-    formulario.addEventListener('submit', function (event) {
-
-       //creamos un JSON que tendrá los datos de la nueva película
+    formularioTurno.addEventListener('submit', function (event) {
+       event.preventDefault();
+       //creamos un JSON que tendrá los datos del nuevo turno
         const formData = {
-            nombre: document.querySelector('#nombre').value,
-            apellido: document.querySelector('#apellido').value,
-            matricula: document.querySelector('#matricula').value,
+            odontologo: {
+                id: document.querySelector('#odontologo').value,
+            },
+            paciente: {
+                 id: document.querySelector('#paciente').value,
+                 },
+            fechaTurno: document.querySelector('#fechaTurno').value,
+            hora: document.querySelector('#hora').value
 
         };
-        //invocamos utilizando la función fetch la API peliculas con el método POST que guardará
-        //la película que enviaremos en formato JSON
-        const url = '/api/odontologos';
+
+        //invocamos utilizando la función fetch la API turnos con el método POST que guardará
+        //el turno que enviaremos en formato JSON
+        const url = '/api/turnos';
         const settings = {
             method: 'POST',
             headers: {
@@ -28,11 +34,11 @@ window.addEventListener('load', function () {
         fetch(url, settings)
             .then(response => response.json())
             .then(data => {
-                 //Si no hay ningun error se muestra un mensaje diciendo que la pelicula
+                 //Si no hay ningun error se muestra un mensaje diciendo que el turno
                  //se agrego bien
                  let successAlert = '<div class="alert alert-success alert-dismissible">' +
                      '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                     '<strong></strong> Odontologo Agregado </div>'
+                     '<strong></strong> Turno success </div>'
 
                  document.querySelector('#response').innerHTML = successAlert;
                  document.querySelector('#response').style.display = "block";
@@ -40,7 +46,7 @@ window.addEventListener('load', function () {
 
             })
             .catch(error => {
-                    //Si hay algun error se muestra un mensaje diciendo que la pelicula
+                    //Si hay algun error se muestra un mensaje diciendo que el turno
                     //no se pudo guardar y se intente nuevamente
                     let errorAlert = '<div class="alert alert-danger alert-dismissible">' +
                                      '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
@@ -48,23 +54,24 @@ window.addEventListener('load', function () {
 
                       document.querySelector('#response').innerHTML = errorAlert;
                       document.querySelector('#response').style.display = "block";
-                     //se dejan todos los campos vacíos por si se quiere ingresar otra pelicula
+                     //se dejan todos los campos vacíos por si se quiere ingresar otro turno
                      resetUploadForm();})
     });
 
 
     function resetUploadForm(){
-        document.querySelector('#nombre').value = "";
-        document.querySelector('#apellido').value = "";
-         document.querySelector('#matricula').value = "";
+        document.querySelector('#odontologo').value = "";
+        document.querySelector('#paciente').value = "";
+        document.querySelector('#fechaTurno').value = "";
+        document.querySelector('#hora').value= "";
 
     }
 
     (function(){
         let pathname = window.location.pathname;
-        if(pathname === "/odontologoPost.html"){
+        if(pathname === "/turnosPost.html"){
             document.querySelector(".nav .nav-item a:first").addClass("active");
-        } else if (pathname == "/odontologoslist.html") {
+        } else if (pathname == "/turnosList.html") {
             document.querySelector(".nav .nav-item a:last").addClass("active");
         }
     })();

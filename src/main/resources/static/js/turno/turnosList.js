@@ -45,9 +45,10 @@ window.addEventListener('load', function () {
             //como ultima columna el boton eliminar
             turnoRow.innerHTML =
                     '<td>' + updateButton + '</td>' +
-                    '<td class=\"td_odontologo\">' + turno.odontologo.apellido + " "+ turno.odontologo.nombre + '</td>' +
-                    '<td class=\"td_paciente\">' + turno.paciente.apellido + " " + turno.paciente.nombre + '</td>' +
+                    '<td class=\"td_odontologo\">' + turno.odontologo.apellido + ", "+ turno.odontologo.nombre + '</td>' +
+                    '<td class=\"td_paciente\">' + turno.paciente.apellido + ", " + turno.paciente.nombre + '</td>' +
                     '<td class=\"td_fecha\">' + turno.fechaTurno + '</td>' +
+                    '<td class=\"td_hora\">' + turno.hora + '</td>' +
                     '<td>' + deleteButton + '</td>';
 
         };
