@@ -37,13 +37,11 @@ public class Paciente {
     private String apellido;
 
     @NotNull(message = "El dni es obligatorio")
-    @Column(name = "dni")
+    @Column(name = "dni", unique = true)
     private int dni;
 
     @Column(name = "fechaDeAlta")
     private LocalDate fechaDeAlta;
-
-
 
 
     public Paciente(long id, Domicilio domicilio, String nombre, String apellido, int dni, LocalDate fechaDeAlta) {

@@ -17,21 +17,23 @@ public class Domicilio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
 
-
     @NotEmpty(message = "la calle es obligatoria")
-    @Column(name="calle")
+    @Column(name = "calle")
     private String calle;
+
     @NotEmpty(message = "El numero es obligatorio")
-    @Column(name="numero")
+    @Column(name = "numero")
     private String numero;
+
     @NotEmpty(message = "La localidad es obligatoria")
-    @Column(name="localidad")
+    @Column(name = "localidad")
     private String localidad;
+
     @NotEmpty(message = "La provincia es obligatoria")
-    @Column(name="provincia")
+    @Column(name = "provincia")
     private String provincia;
 
 
