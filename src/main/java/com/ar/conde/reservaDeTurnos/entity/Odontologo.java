@@ -7,26 +7,32 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-@Entity
+
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name="odontologos")
+@SuperBuilder
+@Entity
+@Table(name = "odontologos")
 public class Odontologo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private long id;
+
     @NotEmpty(message = "El nombre es obligatorio")
     @Column(name = "nombre")
     private String nombre;
+
     @NotEmpty(message = "el apellido es obligatorio")
     @Column(name = "apellido")
     private String apellido;
+
     @NotNull(message = "La Matricula es obligatoria")
-    @Column(name="matricula")
+    @Column(name = "matricula", unique = true)
     private int matricula;
 
     public Odontologo(String nombre, String apellido, int matricula) {
@@ -45,7 +51,7 @@ public class Odontologo {
                 '}';
     }
 
-    public void mostrarInfo(){
+    public void mostrarInfo() {
         Log4j.info("probando logeo");
     }
 }

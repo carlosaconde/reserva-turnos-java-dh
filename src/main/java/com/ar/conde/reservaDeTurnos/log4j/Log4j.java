@@ -1,9 +1,10 @@
 package com.ar.conde.reservaDeTurnos.log4j;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
     public class Log4j {
-        private static final Logger logger = Logger.getLogger(Log4j.class);
+        private static final Logger logger = LoggerFactory.getLogger(Log4j.class);
 
         public static void info(String msg) {
             logger.info(msg);
