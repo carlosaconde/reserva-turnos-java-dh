@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface PacienteRepository extends CrudRepository<Paciente,Long> {
+public interface IPacienteRepository extends CrudRepository<Paciente,Long> {
 
     @Query("SELECT p FROM Paciente p WHERE p.dni = :dni")
     Optional<Paciente> buscarPorDni(@Param("dni") int dni);

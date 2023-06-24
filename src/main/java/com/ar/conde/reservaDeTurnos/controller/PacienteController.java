@@ -1,59 +1,91 @@
 package com.ar.conde.reservaDeTurnos.controller;
 
-
 import com.ar.conde.reservaDeTurnos.entity.Paciente;
+import com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException;
+import com.ar.conde.reservaDeTurnos.log4j.Log4j;
 import com.ar.conde.reservaDeTurnos.service.IService;
+import com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 
+
 @RestController
-public class PacienteController {
+@RequestMapping("/api/pacientes")
+public class PacienteController extends CustomFieldException {
     @Autowired
     @Qualifier("paciente")
     private IService service;
 
-    @GetMapping("/api/pacientes")
-    public List<Paciente> getAll(){
-        return service.getAll();
-    }
-
-    @GetMapping("/api/pacientes/{id}")
-    public ResponseEntity<?> paciente(@PathVariable Long id){
-        Optional<Paciente> pacienteOptional = service.getById(id);
-        if(pacienteOptional.isPresent()){
-            return ResponseEntity.ok(pacienteOptional.get());
-        }else {
-            return ResponseEntity.notFound().build();
+    @GetMapping("/")
+    public ResponseEntity<List<Paciente>> getAll() {
+        try {
+            List<Paciente> pacientes = service.getAll();
+            return ResponseEntity.ok().body(pacientes);
+        } catch (Exception e) {
+            Log4j.error(e.toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
-    @PostMapping("/api/pacientes")
-    public ResponseEntity<?> save(@RequestBody Paciente paciente){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(paciente));
-    }
-
-    @PutMapping("/api/pacientes/{id}")
-    public ResponseEntity<?> update(@RequestBody Paciente paciente, @PathVariable Long id){
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.update(id, paciente));
-
-    }
-
-    @DeleteMapping("/api/pacientes/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        Optional<Paciente> paciente = service.getById(id);
-        if(paciente.isPresent()){
-            service.delete(id);
-            return  ResponseEntity.noContent().build();
-        }else {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> paciente(@PathVariable Long id) {
+        try {
+            Optional<Paciente> paciente = service.getById(id);
+            if(paciente.isPresent()) {
+                return ResponseEntity.ok(paciente);
+            }
             return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            Log4j.error(e.toString());
+            return customResponseError(e);
+        }
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<?> save(@Valid @RequestBody Paciente paciente, BindingResult result) {
+        try {
+            if(result.hasErrors()) {
+                return validate(result);
+            }
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.create(paciente));
+        } catch (Exception e) {
+            Log4j.error(e.toString());
+            return customResponseError(e);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody Paciente paciente, BindingResult result, @PathVariable Long id) {
+        try {
+            if(result.hasErrors()) {
+                return validate(result);
+            }
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.update(id,paciente));
+        } catch (Exception e) {
+            Log4j.error(e.toString());
+            return customResponseError(e);
+        }
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            Log4j.error(e.toString());
+            return customResponseError(e);
         }
     }
 

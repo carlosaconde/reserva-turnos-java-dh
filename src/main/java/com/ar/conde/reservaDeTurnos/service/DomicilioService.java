@@ -1,7 +1,7 @@
 package com.ar.conde.reservaDeTurnos.service;
 
 import com.ar.conde.reservaDeTurnos.entity.Domicilio;
-import com.ar.conde.reservaDeTurnos.repositories.DomicilioRepository;
+import com.ar.conde.reservaDeTurnos.repositories.IDomicilioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service("domicilio")
 public class DomicilioService implements IService<Domicilio>{
 
-    private DomicilioRepository repository;
+    private IDomicilioRepository repository;
 
-    public DomicilioService(DomicilioRepository repository){
+    public DomicilioService(IDomicilioRepository repository){
         this.repository = repository;
     }
     @Override
