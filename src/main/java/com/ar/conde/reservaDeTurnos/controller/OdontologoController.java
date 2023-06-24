@@ -4,6 +4,7 @@ import com.ar.conde.reservaDeTurnos.entity.Odontologo;
 import com.ar.conde.reservaDeTurnos.log4j.Log4j;
 import com.ar.conde.reservaDeTurnos.service.IService;
 import jakarta.validation.Valid;
+import com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -14,12 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException.customResponseError;
-import static com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException.validate;
+
 
 @RestController
 @RequestMapping("/api/odontologos")
-public class OdontologoController {
+public class OdontologoController extends CustomFieldException{
     @Autowired
     @Qualifier("odontologo")
     private IService service;

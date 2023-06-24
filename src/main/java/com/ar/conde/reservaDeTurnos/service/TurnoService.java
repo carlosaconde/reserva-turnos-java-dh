@@ -2,7 +2,7 @@ package com.ar.conde.reservaDeTurnos.service;
 
 import com.ar.conde.reservaDeTurnos.entity.Turno;
 import com.ar.conde.reservaDeTurnos.log4j.Log4j;
-import com.ar.conde.reservaDeTurnos.repositories.TurnoRepository;
+import com.ar.conde.reservaDeTurnos.repositories.ITurnoRepository;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
@@ -14,9 +14,9 @@ import java.util.Optional;
 @Service("turno")
 public class TurnoService implements IService<Turno>{
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-    private TurnoRepository repository;
+    private ITurnoRepository repository;
 
-    public TurnoService(TurnoRepository repository){
+    public TurnoService(ITurnoRepository repository){
         this.repository=repository;
     }
     @Override
