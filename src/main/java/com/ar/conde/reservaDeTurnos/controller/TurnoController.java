@@ -4,6 +4,7 @@ package com.ar.conde.reservaDeTurnos.controller;
 import com.ar.conde.reservaDeTurnos.entity.Odontologo;
 import com.ar.conde.reservaDeTurnos.entity.Paciente;
 import com.ar.conde.reservaDeTurnos.entity.Turno;
+import com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException;
 import com.ar.conde.reservaDeTurnos.log4j.Log4j;
 import com.ar.conde.reservaDeTurnos.service.IService;
 import jakarta.validation.Valid;
@@ -24,7 +25,7 @@ import static com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException.valid
 
 @RestController
 @RequestMapping("/api/turnos")
-public class TurnoController {
+public class TurnoController extends CustomFieldException {
 
     @Autowired
     @Qualifier("turno")
@@ -35,9 +36,6 @@ public class TurnoController {
     @Autowired
     @Qualifier("odontologo")
     private IService odontologoService;
-
-    public TurnoController() {
-    }
 
 
     @GetMapping("/")
@@ -79,10 +77,36 @@ public class TurnoController {
             return ResponseEntity.status(HttpStatus.CREATED).body(turnoservice.create(turno));
         } catch (Exception e){
             Log4j.error(e.toString());
-            return customResponseError(e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         }
 
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody Turno turno, BindingResult result,@PathVariable Long id){
+        try {
+            if(result.hasErrors()){
+                return validate(result);
+            }
+            return ResponseEntity.status(HttpStatus.CREATED).body(turnoservice.update(id, turno));
+        }catch (Exception e){
+            Log4j.error(e.toString());
+            return customResponseError(e);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+
+        try{
+            turnoservice.delete(id);
+            return  ResponseEntity.status(HttpStatus.OK).build();
+         }catch (Exception e){
+            Log4j.error(e.toString());
+            return customResponseError(e);
+        }
+    }
+
 
 }

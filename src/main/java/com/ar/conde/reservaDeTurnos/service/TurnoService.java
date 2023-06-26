@@ -4,7 +4,8 @@ import com.ar.conde.reservaDeTurnos.entity.Odontologo;
 import com.ar.conde.reservaDeTurnos.entity.Paciente;
 import com.ar.conde.reservaDeTurnos.entity.Turno;
 import com.ar.conde.reservaDeTurnos.log4j.Log4j;
-import com.ar.conde.reservaDeTurnos.repositories.TurnoRepository;
+import com.ar.conde.reservaDeTurnos.repositories.ITurnoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
@@ -15,12 +16,16 @@ import java.util.List;
 import java.util.Optional;
 @Service("turno")
 public class TurnoService implements IService<Turno>{
-    private IService<Odontologo> odontologoService;
-    private IService<Paciente> pacienteService;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-    private TurnoRepository repository;
 
-    public TurnoService(TurnoRepository repository){
+    @Autowired
+    public IService<Odontologo> OdontologoService;
+    @Autowired
+    public IService<Paciente>  PacienteService;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+    private ITurnoRepository repository;
+
+    public TurnoService(ITurnoRepository repository){
         this.repository=repository;
     }
     @Override
@@ -53,8 +58,8 @@ public class TurnoService implements IService<Turno>{
     public Turno create(Turno turno) {
 
         try{
-            Optional<Paciente> pacienteBuscado = pacienteService.getById(turno.getPaciente().getId());
-            Optional<Odontologo> odontologoBuscado = odontologoService.getById(turno.getOdontologo().getId());
+            Optional<Paciente> pacienteBuscado = PacienteService.getById(turno.getPaciente().getId());
+            Optional<Odontologo> odontologoBuscado = OdontologoService.getById(turno.getOdontologo().getId());
 
             if(!pacienteBuscado.isPresent()){
                 throw new IllegalArgumentException("El ID del paciente no existe");
