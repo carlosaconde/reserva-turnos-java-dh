@@ -14,17 +14,18 @@ import java.util.Optional;
 
 
 @RestController
+@RequestMapping("/api/pacientes")
 public class PacienteController {
     @Autowired
     @Qualifier("paciente")
     private IService service;
 
-    @GetMapping("/api/pacientes")
+    @GetMapping("/")
     public List<Paciente> getAll(){
         return service.getAll();
     }
 
-    @GetMapping("/api/pacientes/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> paciente(@PathVariable Long id){
         Optional<Paciente> pacienteOptional = service.getById(id);
         if(pacienteOptional.isPresent()){
@@ -34,19 +35,19 @@ public class PacienteController {
         }
     }
 
-    @PostMapping("/api/pacientes")
+    @PostMapping("/")
     public ResponseEntity<?> save(@RequestBody Paciente paciente){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(paciente));
     }
 
-    @PutMapping("/api/pacientes/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody Paciente paciente, @PathVariable Long id){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(service.update(id, paciente));
 
     }
 
-    @DeleteMapping("/api/pacientes/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         Optional<Paciente> paciente = service.getById(id);
         if(paciente.isPresent()){

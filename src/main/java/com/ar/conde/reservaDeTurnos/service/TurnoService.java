@@ -1,5 +1,7 @@
 package com.ar.conde.reservaDeTurnos.service;
 
+import com.ar.conde.reservaDeTurnos.entity.Odontologo;
+import com.ar.conde.reservaDeTurnos.entity.Paciente;
 import com.ar.conde.reservaDeTurnos.entity.Turno;
 import com.ar.conde.reservaDeTurnos.log4j.Log4j;
 import com.ar.conde.reservaDeTurnos.repositories.TurnoRepository;
@@ -13,6 +15,8 @@ import java.util.List;
 import java.util.Optional;
 @Service("turno")
 public class TurnoService implements IService<Turno>{
+    private IService<Odontologo> odontologoService;
+    private IService<Paciente> pacienteService;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
     private TurnoRepository repository;
 
@@ -49,10 +53,16 @@ public class TurnoService implements IService<Turno>{
     public Turno create(Turno turno) {
 
         try{
-            Optional<Turno> isexist = getById(turno.getId());
-            if(isexist.isPresent()){
-                throw new IllegalArgumentException("El ID ya esta siendo utilizado");
+            Optional<Paciente> pacienteBuscado = pacienteService.getById(turno.getPaciente().getId());
+            Optional<Odontologo> odontologoBuscado = odontologoService.getById(turno.getOdontologo().getId());
+
+            if(!pacienteBuscado.isPresent()){
+                throw new IllegalArgumentException("El ID del paciente no existe");
             }
+            if(!odontologoBuscado.isPresent()){
+                throw new IllegalArgumentException("El ID del odontologo no existe");
+            }
+
             turno.setFechaTurno(((LocalDate.parse(turno.getFechaTurno()))));
             turno.setHora(String.valueOf(LocalTime.parse(turno.getHora(),formatter)));
             Log4j.info("Turno creado");
