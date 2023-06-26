@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  reserva-turnos-be:
+    container_name: reserva-turnos
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
