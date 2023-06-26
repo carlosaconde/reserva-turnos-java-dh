@@ -4,20 +4,28 @@ package com.ar.conde.reservaDeTurnos.controller;
 import com.ar.conde.reservaDeTurnos.entity.Odontologo;
 import com.ar.conde.reservaDeTurnos.entity.Paciente;
 import com.ar.conde.reservaDeTurnos.entity.Turno;
+import com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException;
+import com.ar.conde.reservaDeTurnos.log4j.Log4j;
 import com.ar.conde.reservaDeTurnos.service.IService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException.customResponseError;
+import static com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException.validate;
+
 
 @RestController
-public class TurnoController {
+@RequestMapping("/api/turnos")
+public class TurnoController extends CustomFieldException {
 
     @Autowired
     @Qualifier("turno")
@@ -29,36 +37,76 @@ public class TurnoController {
     @Qualifier("odontologo")
     private IService odontologoService;
 
-    public TurnoController() {
+
+    @GetMapping("/")
+    public ResponseEntity<List<Turno>> getAll(){
+
+        try{
+            List<Turno> turnos = turnoservice.getAll();
+            return ResponseEntity.ok().body(turnos);
+        } catch (Exception e){
+            Log4j.error(e.toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
     }
 
-
-    @GetMapping("/api/turnos")
-    public List<Turno> getAll(){
-        return turnoservice.getAll();
-    }
-
-    @GetMapping("/api/turnos/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> turno(@PathVariable Long id) {
-        Optional<Turno> turnoOptional = turnoservice.getById(id);
-        if (turnoOptional.isPresent()) {
-            return ResponseEntity.ok(turnoOptional.get());
-        } else {
-            return ResponseEntity.notFound().build();
+
+        try {
+            Optional<Turno> turnoOptional = turnoservice.getById(id);
+            if (turnoOptional.isPresent()) {
+                return ResponseEntity.ok(turnoOptional.get());
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            Log4j.error(e.toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+    @PostMapping("/")
+    public ResponseEntity<?>  save(@Valid @RequestBody Turno turno, BindingResult result)  {
+        try {
+            if (result.hasErrors()) {
+                return validate(result);
+
+            }
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(turnoservice.create(turno));
+        } catch (Exception e){
+            Log4j.error(e.toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        }
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody Turno turno, BindingResult result,@PathVariable Long id){
+        try {
+            if(result.hasErrors()){
+                return validate(result);
+            }
+            return ResponseEntity.status(HttpStatus.CREATED).body(turnoservice.update(id, turno));
+        }catch (Exception e){
+            Log4j.error(e.toString());
+            return customResponseError(e);
         }
     }
 
-    @PostMapping("/api/turnos")
-    public ResponseEntity<?> turno(@RequestBody Turno turno )  {
-        Optional<Paciente> pacienteBuscado = pacienteService.getById(turno.getPaciente().getId());
-        Optional<Odontologo> odontologoBuscado = odontologoService.getById(turno.getOdontologo().getId());
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
 
-        if(pacienteBuscado.isPresent()&&odontologoBuscado.isPresent()){
-            return ResponseEntity.ok(turnoservice.create(turno));
-        }else{
-            return null;
+        try{
+            turnoservice.delete(id);
+            return  ResponseEntity.status(HttpStatus.OK).build();
+         }catch (Exception e){
+            Log4j.error(e.toString());
+            return customResponseError(e);
         }
-
     }
+
 
 }
