@@ -1,8 +1,11 @@
 package com.ar.conde.reservaDeTurnos.service;
 
+import com.ar.conde.reservaDeTurnos.entity.Odontologo;
+import com.ar.conde.reservaDeTurnos.entity.Paciente;
 import com.ar.conde.reservaDeTurnos.entity.Turno;
 import com.ar.conde.reservaDeTurnos.log4j.Log4j;
 import com.ar.conde.reservaDeTurnos.repositories.ITurnoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
@@ -13,6 +16,12 @@ import java.util.List;
 import java.util.Optional;
 @Service("turno")
 public class TurnoService implements IService<Turno>{
+
+    @Autowired
+    public IService<Odontologo> OdontologoService;
+    @Autowired
+    public IService<Paciente>  PacienteService;
+
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
     private ITurnoRepository repository;
 
@@ -49,10 +58,16 @@ public class TurnoService implements IService<Turno>{
     public Turno create(Turno turno) {
 
         try{
-            Optional<Turno> isexist = getById(turno.getId());
-            if(isexist.isPresent()){
-                throw new IllegalArgumentException("El ID ya esta siendo utilizado");
+            Optional<Paciente> pacienteBuscado = PacienteService.getById(turno.getPaciente().getId());
+            Optional<Odontologo> odontologoBuscado = OdontologoService.getById(turno.getOdontologo().getId());
+
+            if(!pacienteBuscado.isPresent()){
+                throw new IllegalArgumentException("El ID del paciente no existe");
             }
+            if(!odontologoBuscado.isPresent()){
+                throw new IllegalArgumentException("El ID del odontologo no existe");
+            }
+
             turno.setFechaTurno(((LocalDate.parse(turno.getFechaTurno()))));
             turno.setHora(String.valueOf(LocalTime.parse(turno.getHora(),formatter)));
             Log4j.info("Turno creado");

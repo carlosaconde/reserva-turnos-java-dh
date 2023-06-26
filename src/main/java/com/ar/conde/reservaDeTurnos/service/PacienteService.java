@@ -4,7 +4,7 @@ import com.ar.conde.reservaDeTurnos.entity.Paciente;
 import com.ar.conde.reservaDeTurnos.log4j.Log4j;
 import com.ar.conde.reservaDeTurnos.repositories.IPacienteRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,7 +21,7 @@ public class PacienteService implements IService<Paciente> {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List getAll() {
         try {
             return (List<Paciente>) repository.findAll();
@@ -33,8 +33,8 @@ public class PacienteService implements IService<Paciente> {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<Paciente> getById(Long id) {
+    @Transactional
+    public  Optional<Paciente> getById(Long id) {
         try {
             return repository.findById(id);
         } catch (Exception e) {

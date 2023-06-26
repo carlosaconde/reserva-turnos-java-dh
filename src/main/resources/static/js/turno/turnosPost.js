@@ -22,7 +22,7 @@ window.addEventListener('load', function () {
 
         //invocamos utilizando la función fetch la API turnos con el método POST que guardará
         //el turno que enviaremos en formato JSON
-        const url = '/api/turnos';
+        const url = '/api/turnos/';
         const settings = {
             method: 'POST',
             headers: {
