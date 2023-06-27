@@ -53,6 +53,9 @@ public class PacienteService implements IService<Paciente> {
             if (isExists.isPresent()) {
                 throw new IllegalArgumentException("El DNI ya esta registrado");
             }
+            if(paciente.getDni()<0){
+                throw new IllegalArgumentException("el DNI no puede ser negativo");
+            }
             paciente.setFechaDeAlta(LocalDate.now());
             return repository.save(paciente);
         } catch (Exception e) {

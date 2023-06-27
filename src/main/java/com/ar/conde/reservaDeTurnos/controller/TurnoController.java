@@ -57,13 +57,13 @@ public class TurnoController extends CustomFieldException {
         try {
             Optional<Turno> turnoOptional = turnoservice.getById(id);
             if (turnoOptional.isPresent()) {
-                return ResponseEntity.ok(turnoOptional.get());
+                return ResponseEntity.ok(turnoOptional);
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
             Log4j.error(e.toString());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return customResponseError(e);
         }
     }
     @PostMapping("/")
@@ -77,8 +77,8 @@ public class TurnoController extends CustomFieldException {
             return ResponseEntity.status(HttpStatus.CREATED).body(turnoservice.create(turno));
         } catch (Exception e){
             Log4j.error(e.toString());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
+            return customResponseError(e);
         }
 
     }
