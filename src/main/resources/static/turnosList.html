@@ -11,6 +11,7 @@
     <script type="text/javascript" src="/js/turno/turnosList.js"></script>
     <script type="text/javascript" src="/js/turno/turnosPost.js"></script>
     <script type="text/javascript" src="/js/turno/turnosDelete.js"></script>
+    <script type="text/javascript" src="/js/turno/turnosUpdate.js"></script>
 </head>
 <body>
 <div class="container">
@@ -28,6 +29,7 @@
 
     <div id="div_turno_table">
         <h1>Turnos</h1>
+        <h3> Para modificar un turno , haga click en el ID</h3>
         <div class="row col-md-6 table-responsive">
             <table id="turnoTable" class="table table-striped">
                 <thead>
@@ -48,38 +50,48 @@
         </div>
     </div>
     <div class="row">
+
         <div class="col-sm-6" style="display: none;
     											background-color:#e6fffa; padding:10px; border-radius:3px"
-             id="div__updating">
+             id="div_turno_updating">
+            <div class="container mt-3 mb-5">
+
+                <select id="pacientesOptionsUpdate">
+                    <option>Seleccione un paciente</option>
+                </select>
+            </div>
+
+            <div class="container mb-5">
+                <select id="odontologosOptionsUpdate">
+                    <option> seleccione un odontologo</option>
+                </select>
+            </div>
             <form id="update_turno_form">
                 <div class="form-group">
                     <label >Id:</label>
-                    <input type="text" class="form-control" id="turno_id" readonly>
+                    <input type="number" class="form-control" id="turno_id" readonly>
                 </div>
                 <div class="form-group">
                     <label >Odontologo:</label>
-                    <input type="text" class="form-control"  id="odontologo">
+                    <input type="number" class="form-control"  id="odontologo_id">
                 </div>
                 <div class="form-group">
                     <label >Paciente:</label>
-                    <input type="text" class="form-control" id="paciente">
+                    <input type="number" class="form-control" id="paciente_id">
                 </div>
                 <div class="form-group">
-                    <label >Fecha:</label>
-                    <input type="datetime-local" class="form-control"  id="fecha" >
+                    <label >Fecha: </label>
+                    <input type="date" class="form-control"  id="fecha" >
                 </div>
                 <div class="form-group">
                     <label >Hora:</label>
-                    <input type="datetime-local" class="form-control"  id="Hora" >
-                </div>
-                <div class="form-group">
-                    <label >Numero:</label>
-                    <input type="number" class="form-control"  id="numero" >
+                    <input type="time" class="form-control"  id="hora" >
                 </div>
 
 
 
                 <button type="submit" class="btn btn-primary">Modificar</button>
+                <button type="button" class="btn btn-secondary" onclick="document.querySelector('#div_turno_updating').style.display = 'none'">Cancelar</button>
             </form>
             <div id="response" style="display:none; margin:10px">
             </div>

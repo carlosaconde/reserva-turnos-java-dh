@@ -15,7 +15,7 @@ window.addEventListener('load', function () {
             id: document.querySelector('#paciente_id').value,
             apellido: document.querySelector('#apellido').value,
             nombre: document.querySelector('#nombre').value,
-            matricula: document.querySelector('#dni').value,
+            dni: document.querySelector('#dni').value,
              domicilio:{
                     calle:document.querySelector('#calle').value,
                     numero:document.querySelector('#numero').value,
@@ -27,7 +27,7 @@ window.addEventListener('load', function () {
 
         //invocamos utilizando la función fetch la API odontologos con el método PUT que modificará
         //el odontologoque enviaremos en formato JSON
-        const url = '/odontologos/';
+        const url = '/api/pacientes/'+pacienteId;
         const settings = {
             method: 'PUT',
             headers: {
@@ -45,7 +45,7 @@ window.addEventListener('load', function () {
     //se encarga de llenar el formulario con los datos de la odontologo
     //que se desea modificar
     function findBy(id) {
-          const url = '/api/pacientes'+"/"+id;
+          const url = `/api/pacientes/${id}`;
           const settings = {
               method: 'GET'
           }
@@ -53,7 +53,8 @@ window.addEventListener('load', function () {
           .then(response => response.json())
           .then(data => {
               let paciente = data;
-              document.querySelector('#paciente_id').value = odontologo.id;
+              console.log(paciente);
+              document.querySelector('#paciente_id').value = paciente.id;
               document.querySelector('#apellido').value = paciente.apellido;
               document.querySelector('#nombre').value = paciente.nombre;
               document.querySelector('#dni').value = paciente.dni;

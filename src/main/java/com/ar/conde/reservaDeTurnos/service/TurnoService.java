@@ -67,6 +67,9 @@ public class TurnoService implements IService<Turno>{
             if(!odontologoBuscado.isPresent()){
                 throw new IllegalArgumentException("El ID del odontologo no existe");
             }
+            if( (LocalDate.parse(turno.getFechaTurno())).isBefore(LocalDate.now()) ){
+                throw new IllegalArgumentException("La fecha no puede ser anterior al dia de hoy ");
+            }
 
             turno.setFechaTurno(((LocalDate.parse(turno.getFechaTurno()))));
             turno.setHora(String.valueOf(LocalTime.parse(turno.getHora(),formatter)));
