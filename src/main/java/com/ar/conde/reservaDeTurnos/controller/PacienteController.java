@@ -4,7 +4,6 @@ import com.ar.conde.reservaDeTurnos.entity.Paciente;
 import com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException;
 import com.ar.conde.reservaDeTurnos.log4j.Log4j;
 import com.ar.conde.reservaDeTurnos.service.IService;
-import com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
-
 
 @RestController
 @RequestMapping("/api/pacientes")

@@ -14,26 +14,28 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+
 @Service("turno")
-public class TurnoService implements IService<Turno>{
+public class TurnoService implements IService<Turno> {
 
     @Autowired
     public IService<Odontologo> OdontologoService;
     @Autowired
-    public IService<Paciente>  PacienteService;
+    public IService<Paciente> PacienteService;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
     private ITurnoRepository repository;
 
-    public TurnoService(ITurnoRepository repository){
-        this.repository=repository;
+    public TurnoService(ITurnoRepository repository) {
+        this.repository = repository;
     }
+
     @Override
     @Transactional()
     public List<Turno> getAll() {
-        try{
+        try {
             return (List<Turno>) repository.findAll();
-        } catch (Exception e){
+        } catch (Exception e) {
             Log4j.error(e.toString());
             throw e;
         }
@@ -43,9 +45,9 @@ public class TurnoService implements IService<Turno>{
     @Override
     @Transactional()
     public Optional<Turno> getById(Long id) {
-        try{
+        try {
             return repository.findById(id);
-        } catch (Exception e){
+        } catch (Exception e) {
             Log4j.error(e.toString());
             throw e;
         }
@@ -57,25 +59,25 @@ public class TurnoService implements IService<Turno>{
     @Transactional
     public Turno create(Turno turno) {
 
-        try{
+        try {
             Optional<Paciente> pacienteBuscado = PacienteService.getById(turno.getPaciente().getId());
             Optional<Odontologo> odontologoBuscado = OdontologoService.getById(turno.getOdontologo().getId());
 
-            if(!pacienteBuscado.isPresent()){
+            if (!pacienteBuscado.isPresent()) {
                 throw new IllegalArgumentException("El ID del paciente no existe");
             }
-            if(!odontologoBuscado.isPresent()){
+            if (!odontologoBuscado.isPresent()) {
                 throw new IllegalArgumentException("El ID del odontologo no existe");
             }
-            if( (LocalDate.parse(turno.getFechaTurno())).isBefore(LocalDate.now()) ){
+            if ((LocalDate.parse(turno.getFechaTurno())).isBefore(LocalDate.now())) {
                 throw new IllegalArgumentException("La fecha no puede ser anterior al dia de hoy ");
             }
 
             turno.setFechaTurno(((LocalDate.parse(turno.getFechaTurno()))));
-            turno.setHora(String.valueOf(LocalTime.parse(turno.getHora(),formatter)));
+            turno.setHora(String.valueOf(LocalTime.parse(turno.getHora(), formatter)));
             Log4j.info("Turno creado");
             return repository.save(turno);
-        } catch (Exception e){
+        } catch (Exception e) {
             Log4j.error(e.toString());
             throw e;
         }
@@ -108,14 +110,14 @@ public class TurnoService implements IService<Turno>{
     @Override
     @Transactional
     public void delete(Long id) {
-        try{
-            Optional<Turno>  turno = getById(id);
-            if(turno.isPresent()){
+        try {
+            Optional<Turno> turno = getById(id);
+            if (turno.isPresent()) {
                 repository.deleteById(id);
             } else {
-                throw new IllegalArgumentException("El id " + id +" no existe");
+                throw new IllegalArgumentException("El id " + id + " no existe");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             Log4j.error(e.toString());
             throw e;
         }
