@@ -21,7 +21,7 @@ public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private long id;
+    private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "domicilio",referencedColumnName = "id")
@@ -44,7 +44,7 @@ public class Paciente {
     private LocalDate fechaDeAlta;
 
 
-    public Paciente(long id, Domicilio domicilio, String nombre, String apellido, int dni, LocalDate fechaDeAlta) {
+    public Paciente(Long id, Domicilio domicilio, String nombre, String apellido, int dni, LocalDate fechaDeAlta) {
         this.id = id;
         this.domicilio = domicilio;
         this.nombre = nombre;

@@ -21,7 +21,7 @@ public class Odontologo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @NotEmpty(message = "El nombre es obligatorio")
     @Column(name = "nombre")
