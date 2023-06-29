@@ -49,7 +49,7 @@ window.addEventListener('load', function () {
                     '<td class=\"td_apellido\">' + paciente.apellido.toUpperCase() + '</td>'+
 
                     '<td class=\"td_dni\">' + paciente.dni + '</td>' +
-                    '<td class=\"td_calle\">' + paciente.domicilio.calle.toUpperCase() + '</td>' +
+
                     '<td>' + deleteButton + '</td>';
         };
     })

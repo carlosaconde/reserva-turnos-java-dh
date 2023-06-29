@@ -48,11 +48,15 @@ public class OdontologoService implements IService<Odontologo> {
     public Odontologo create(Odontologo odontologo) {
         try {
             Optional<Odontologo> isExists = buscarPorMatricula(odontologo.getMatricula());
+
             if (isExists.isPresent()) {
                 throw new IllegalArgumentException("la Matricula ya esta registrada ");
             }
+            if(odontologo.getMatricula() < 0){
+                throw new IllegalArgumentException("la matricula no puede ser negativa");
+            }
             return repository.save(odontologo);
-        } catch (Exception e) {
+        } catch (Exception e){
             Log4j.error(e.toString());
             throw e;
         }
