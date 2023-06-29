@@ -1,18 +1,17 @@
 package com.ar.conde.reservaDeTurnos.entity;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 @NoArgsConstructor
 @Getter
 @Setter
-
 @Entity
-@Table(name="turnos")
+@Table(name = "turnos")
 public class Turno {
 
     @Id
@@ -25,25 +24,12 @@ public class Turno {
     @Column(name = "hora")
     private String hora;
 
-
-    public void setHora(String hora) {
-        this.hora = (hora);
-    }
-
-
-
-    public void setFechaTurno(LocalDate fechaTurno) {
-        this.fechaTurno = String.valueOf(fechaTurno);
-    }
-
     @ManyToOne
-    @JoinColumn(name="odontologo", nullable = false)
+    @JoinColumn(name = "odontologo", nullable = false)
     private Odontologo odontologo;
 
-
-
     @ManyToOne
-    @JoinColumn(name="paciente", nullable = false)
+    @JoinColumn(name = "paciente", nullable = false)
     private Paciente paciente;
 
     public Turno(LocalDate fechaTurno, Odontologo odontologo, Paciente paciente, String hora) {
@@ -52,6 +38,15 @@ public class Turno {
         this.paciente = paciente;
         this.hora = hora;
     }
+
+    public void setHora(String hora) {
+        this.hora = (hora);
+    }
+
+    public void setFechaTurno(LocalDate fechaTurno) {
+        this.fechaTurno = String.valueOf(fechaTurno);
+    }
+
 
     public Odontologo getOdontologo() {
         return odontologo;
