@@ -1,8 +1,5 @@
 package com.ar.conde.reservaDeTurnos.controller;
 
-
-import com.ar.conde.reservaDeTurnos.entity.Odontologo;
-import com.ar.conde.reservaDeTurnos.entity.Paciente;
 import com.ar.conde.reservaDeTurnos.entity.Turno;
 import com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException;
 import com.ar.conde.reservaDeTurnos.log4j.Log4j;
@@ -14,14 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
-
-import static com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException.customResponseError;
-import static com.ar.conde.reservaDeTurnos.exceptions.CustomFieldException.validate;
-
 
 @RestController
 @RequestMapping("/api/turnos")
@@ -66,6 +58,18 @@ public class TurnoController extends CustomFieldException {
             return customResponseError(e);
         }
     }
+
+    @GetMapping("/pacientes/{id}")
+    public ResponseEntity<List<Turno>> turnosPaciente(@PathVariable Long id) {
+        try {
+            List<Turno> turnos = turnoservice.getTurnosPaciente(id);
+            return ResponseEntity.ok().body(turnos);
+        } catch (Exception e) {
+            Log4j.error(e.toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @PostMapping("/")
     public ResponseEntity<?>  save(@Valid @RequestBody Turno turno, BindingResult result)  {
         try {

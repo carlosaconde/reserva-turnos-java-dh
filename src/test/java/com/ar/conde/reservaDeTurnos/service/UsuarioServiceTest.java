@@ -41,7 +41,7 @@ class UsuarioServiceTest {
 
         Usuario result = usuarioService.create(body);
 
-        Assertions.assertEquals(Rol.ADMIN, result.getRol());
+        Assertions.assertEquals(Rol.ROLE_ADMIN, result.getRol());
         verify(repository, times(1)).save(body);
     }
 
@@ -67,7 +67,7 @@ class UsuarioServiceTest {
 
         Usuario result = usuarioService.create(body);
 
-        Assertions.assertEquals(Rol.USER, result.getRol());
+        Assertions.assertEquals(Rol.ROLE_USER, result.getRol());
         verify(repository, times(1)).save(body);
     }
 

@@ -6,8 +6,8 @@ window.addEventListener('load', function () {
     console.log("dentro de odontologo post");
     //Ante un submit del formulario se ejecutará la siguiente funcion
     formularioOdontologo.addEventListener('submit', function (event) {
-    event.preventDefault();
-       //creamos un JSON que tendrá los datos de la nueva película
+        event.preventDefault();
+        //creamos un JSON que tendrá los datos de la nueva película
         const formData = {
             nombre: document.querySelector('#nombre').value,
             apellido: document.querySelector('#apellido').value,
@@ -32,41 +32,42 @@ window.addEventListener('load', function () {
         fetch(url, settings)
             .then(response => response.json())
             .then(data => {
-                 //Si no hay ningun error se muestra un mensaje diciendo que la pelicula
-                 //se agrego bien
-                 let successAlert = '<div class="alert alert-success alert-dismissible">' +
-                     '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                     '<strong></strong> Odontologo Agregado Correctamente </div>'
+                //Si no hay ningun error se muestra un mensaje diciendo que la pelicula
+                //se agrego bien
+                let successAlert = '<div class="alert alert-success alert-dismissible">' +
+                    '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                    '<strong></strong> Odontologo Agregado Correctamente </div>'
 
-                 document.querySelector('#response').innerHTML = successAlert;
-                 document.querySelector('#response').style.display = "block";
-                 resetUploadForm();
+                document.querySelector('#response').innerHTML = successAlert;
+                document.querySelector('#response').style.display = "block";
+                resetUploadForm();
 
             })
             .catch(error => {
-                    //Si hay algun error se muestra un mensaje diciendo que la pelicula
-                    //no se pudo guardar y se intente nuevamente
-                    let errorAlert = '<div class="alert alert-danger alert-dismissible">' +
-                                     '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                                     '<strong> Error intente nuevamente</strong> </div>'
+                //Si hay algun error se muestra un mensaje diciendo que la pelicula
+                //no se pudo guardar y se intente nuevamente
+                let errorAlert = '<div class="alert alert-danger alert-dismissible">' +
+                    '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                    '<strong> Error intente nuevamente</strong> </div>'
 
-                      document.querySelector('#response').innerHTML = errorAlert;
-                      document.querySelector('#response').style.display = "block";
-                     //se dejan todos los campos vacíos por si se quiere ingresar otra pelicula
-                     resetUploadForm();})
+                document.querySelector('#response').innerHTML = errorAlert;
+                document.querySelector('#response').style.display = "block";
+                //se dejan todos los campos vacíos por si se quiere ingresar otra pelicula
+                resetUploadForm();
+            })
     });
 
 
-    function resetUploadForm(){
+    function resetUploadForm() {
         document.querySelector('#nombre').value = "";
         document.querySelector('#apellido').value = "";
-         document.querySelector('#matricula').value = "";
+        document.querySelector('#matricula').value = "";
 
     }
 
-    (function(){
+    (function () {
         let pathname = window.location.pathname;
-        if(pathname === "/odontologoPost.html"){
+        if (pathname === "/odontologoPost.html") {
             document.querySelector(".nav .nav-item a:first").addClass("active");
         } else if (pathname == "/odontologoslist.html") {
             document.querySelector(".nav .nav-item a:last").addClass("active");

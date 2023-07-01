@@ -45,4 +45,9 @@ public class DomicilioService implements IService<Domicilio>{
     public void delete(Long id) {
     repository.deleteById(id);
     }
+
+    @Override
+    public List<?> getTurnosPaciente(Long id) {
+        return null;
+    }
 }

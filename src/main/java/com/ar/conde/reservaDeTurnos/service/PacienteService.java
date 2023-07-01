@@ -111,6 +111,11 @@ public class PacienteService implements IService<Paciente> {
 
     }
 
+    @Override
+    public List<?> getTurnosPaciente(Long id) {
+        return null;
+    }
+
     @jakarta.transaction.Transactional
     public Optional<Paciente> buscarPorDni(Integer dni) {
         try {
