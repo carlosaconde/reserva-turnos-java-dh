@@ -3,6 +3,7 @@ package com.ar.conde.reservaDeTurnos;
 import com.ar.conde.reservaDeTurnos.entity.*;
 import com.ar.conde.reservaDeTurnos.repositories.IOdontologoRepository;
 import com.ar.conde.reservaDeTurnos.repositories.IPacienteRepository;
+import com.ar.conde.reservaDeTurnos.repositories.ITurnoRepository;
 import com.ar.conde.reservaDeTurnos.repositories.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -23,14 +24,22 @@ public class ReservaDeTurnosApplication {
     @Autowired
     private IUsuarioRepository iUsuarioRepository;
 
+    @Autowired
+    private ITurnoRepository iTurnoRepository;
+
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(ReservaDeTurnosApplication.class, args);
 
         ReservaDeTurnosApplication aplicacion = context.getBean(ReservaDeTurnosApplication.class);
 
+        aplicacion.deleteTurnos();
         aplicacion.crearPacientes();
         aplicacion.crearOdontologos();
         aplicacion.crearUsuarios();
+    }
+
+    public void deleteTurnos() {
+        iTurnoRepository.deleteAll();
     }
 
     public void crearPacientes() {
@@ -66,8 +75,8 @@ public class ReservaDeTurnosApplication {
 
         List<Usuario> usuarios = new ArrayList<>();
 
-        usuarios.add(new Usuario("usuario1", "usuario1", false, 11111111, Rol.ROLE_USER));
-        usuarios.add(new Usuario("admin1", "admin1", true, 111, Rol.ROLE_ADMIN));
+        usuarios.add(new Usuario("usuario1", "{noop}usuario1", false, 11111111, Rol.ROLE_USER));
+        usuarios.add(new Usuario("admin1", "{noop}admin1", true, 111, Rol.ROLE_ADMIN));
 
         iUsuarioRepository.saveAll(usuarios);
     }

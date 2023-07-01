@@ -108,6 +108,11 @@ public class OdontologoService implements IService<Odontologo> {
 
     }
 
+    @Override
+    public List<?> getTurnosPaciente(Long id) {
+        return null;
+    }
+
     @Transactional
     public Optional<Odontologo> buscarPorMatricula(Integer matricula) {
         try{

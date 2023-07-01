@@ -55,6 +55,16 @@ public class TurnoService implements IService<Turno> {
 
     }
 
+    @Transactional
+    public List<Turno> getTurnosPaciente(Long id) {
+        try {
+            return repository.findAllByPacienteId(id);
+        } catch (Exception e) {
+            Log4j.error(e.toString());
+            throw e;
+        }
+    }
+
     @Override
     @Transactional
     public Turno create(Turno turno) {
