@@ -47,4 +47,12 @@ public class Usuario {
         this.password = password;
         this.isAdmin = isAdmin;
     }
+
+    public Usuario(String userName, String password, Boolean isAdmin, Integer idNumber, Rol rol) {
+        this.idNumber=idNumber;
+        this.userName = userName;
+        this.password = password;
+        this.isAdmin = isAdmin;
+        this.rol= rol;
+    }
 }
