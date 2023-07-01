@@ -20,9 +20,13 @@ public class Usuario {
     @Column(name="id")
     private Long id;
 
-    @NotNull(message = "es requerido")
+    @NotEmpty(message = "es requerido")
     @Column(name="userName", unique = true)
-    private Integer userName;
+    private String userName;
+
+    @NotNull(message = "es requerido")
+    @Column(name = "idNumber", unique = true)
+    private Integer idNumber;
 
     @NotEmpty(message = "es requerido")
     @Column(name="password")
@@ -32,11 +36,13 @@ public class Usuario {
     @Column(name="rol")
     private Rol rol;
 
+
     @NotNull(message = "es requerido")
     @Column(name="isAdmin")
     private Boolean isAdmin;
 
-    public Usuario(Integer userName, String password, Boolean isAdmin) {
+    public Usuario(String userName, String password, Boolean isAdmin, Integer idNumber) {
+        this.idNumber=idNumber;
         this.userName = userName;
         this.password = password;
         this.isAdmin = isAdmin;
