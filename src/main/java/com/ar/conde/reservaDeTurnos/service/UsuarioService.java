@@ -7,16 +7,26 @@ import com.ar.conde.reservaDeTurnos.entity.Usuario;
 import com.ar.conde.reservaDeTurnos.log4j.Log4j;
 import com.ar.conde.reservaDeTurnos.repositories.IUsuarioRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service("usuario")
 public class UsuarioService {
-    private IUsuarioRepository repository;
+
     private OdontologoService odontologoService;
     private PacienteService pacienteService;
 
+    @Autowired
+    private IUsuarioRepository repository;
     public UsuarioService(IUsuarioRepository repository, OdontologoService odontologoService, PacienteService pacienteService) {
         this.repository = repository;
         this.odontologoService = odontologoService;
@@ -27,7 +37,7 @@ public class UsuarioService {
     public Usuario create(Usuario body) {
         try{
             if(body.getIsAdmin()){
-                Optional<Odontologo> odontologo = odontologoService.buscarPorMatricula(body.getUserName());
+                Optional<Odontologo> odontologo = odontologoService.buscarPorMatricula( body.getIdNumber());
                 if(odontologo.isPresent()) {
                     body.setRol(Rol.ROLE_ADMIN);
                     return repository.save(body);
@@ -35,7 +45,7 @@ public class UsuarioService {
                 throw new IllegalArgumentException("La matricula ingresada no existe");
 
             } else {
-                Optional<Paciente> paciente = pacienteService.buscarPorDni(body.getUserName());
+                Optional<Paciente> paciente = pacienteService.buscarPorDni(body.getIdNumber());
                 if(paciente.isPresent()) {
                     body.setRol(Rol.ROLE_USER);
                     return repository.save(body);
@@ -47,4 +57,7 @@ public class UsuarioService {
             throw exception;
         }
     }
+
+
+
 }

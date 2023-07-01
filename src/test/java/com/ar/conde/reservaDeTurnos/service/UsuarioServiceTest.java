@@ -33,24 +33,24 @@ class UsuarioServiceTest {
     @Test
     public void testCreateAdminUserWithExistingMatricula() {
         Usuario body = new Usuario();
-        body.setUserName(12345);
+        body.setUserName("pablovidal");
         body.setIsAdmin(true);
         Odontologo odontologo = new Odontologo();
-        when(odontologoService.buscarPorMatricula(body.getUserName())).thenReturn(Optional.of(odontologo));
+        when(odontologoService.buscarPorMatricula(body.getIdNumber())).thenReturn(Optional.of(odontologo));
         when(repository.save(body)).thenReturn(body);
 
         Usuario result = usuarioService.create(body);
 
-        Assertions.assertEquals(Rol.ROLE_ADMIN, result.getRol());
+        Assertions.assertEquals(Rol.ADMIN, result.getRol());
         verify(repository, times(1)).save(body);
     }
 
     @Test
     public void testCreateAdminUserWithNonExistingMatricula() {
         Usuario body = new Usuario();
-        body.setUserName(12345);
+        body.setUserName("pablovidal");
         body.setIsAdmin(true);
-        when(odontologoService.buscarPorMatricula(body.getUserName())).thenReturn(Optional.empty());
+        when(odontologoService.buscarPorMatricula(body.getIdNumber())).thenReturn(Optional.empty());
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.create(body));
         verify(repository, never()).save(any());
@@ -59,24 +59,24 @@ class UsuarioServiceTest {
     @Test
     public void testCreateRegularUserWithExistingDni() {
         Usuario body = new Usuario();
-        body.setUserName(123);
+        body.setUserName("123");
         body.setIsAdmin(false);
         Paciente paciente = new Paciente();
-        when(pacienteService.buscarPorDni(body.getUserName())).thenReturn(Optional.of(paciente));
+        when(pacienteService.buscarPorDni(body.getIdNumber())).thenReturn(Optional.of(paciente));
         when(repository.save(body)).thenReturn(body);
 
         Usuario result = usuarioService.create(body);
 
-        Assertions.assertEquals(Rol.ROLE_USER, result.getRol());
+        Assertions.assertEquals(Rol.USER, result.getRol());
         verify(repository, times(1)).save(body);
     }
 
     @Test
     public void testCreateRegularUserWithNonExistingDni() {
         Usuario body = new Usuario();
-        body.setUserName(123);
+        body.setUserName("123");
         body.setIsAdmin(false);
-        when(pacienteService.buscarPorDni(body.getUserName())).thenReturn(Optional.empty());
+        when(pacienteService.buscarPorDni(body.getIdNumber())).thenReturn(Optional.empty());
 
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.create(body));
