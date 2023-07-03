@@ -1,24 +1,9 @@
 window.addEventListener('load', function () {
-
-
-
-
-
-
     (function(){
-let userName = document.getElementById("user");
-    const urlUser = '/api/usuarios/usuarioLogueado';
-          const settingsUser = {
-            method: 'GET'
-          }
-          fetch(urlUser,settingsUser)
-              .then(response => response.json())
-                .then(data => {
-                console.log(data)})
 
       //con fetch invocamos a la API de turnos con el método GET
       //nos devolverá un JSON con una colección de turnos
-      const url = '/api/turnos/';
+      const url = '/api/turnos/pacientes/ + id';
       const settings = {
         method: 'GET'
       }

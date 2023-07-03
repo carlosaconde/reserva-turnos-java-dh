@@ -31,6 +31,7 @@ public class TurnoController extends CustomFieldException {
 
 
     @GetMapping("/")
+
     public ResponseEntity<List<Turno>> getAll(){
 
         try{

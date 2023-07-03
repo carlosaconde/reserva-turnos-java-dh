@@ -7,10 +7,17 @@ import com.ar.conde.reservaDeTurnos.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -18,7 +25,13 @@ public class UsuarioController extends CustomFieldException {
     @Autowired
     @Qualifier("usuario")
     private UsuarioService usuarioService;
-
+    @GetMapping("/usuarioLogueado")
+    public String mostrarPerfil(Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        model.addAttribute("username",userDetails.getUsername());
+        // Otros atributos del usuario que desees mostrar
+        return "perfil";
+    }
     @PostMapping("/")
     public ResponseEntity<?> create(@Valid @RequestBody Usuario body, BindingResult result) {
         try {
