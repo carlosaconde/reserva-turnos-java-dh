@@ -52,11 +52,18 @@ public class OdontologoService implements IService<Odontologo> {
             if (isExists.isPresent()) {
                 throw new IllegalArgumentException("la Matricula ya esta registrada ");
             }
-            if(odontologo.getMatricula() < 0){
+            if (odontologo.getMatricula() < 0) {
                 throw new IllegalArgumentException("la matricula no puede ser negativa");
             }
+            if (odontologo.getNombre().length() < 3) {
+                throw new IllegalArgumentException("el nombre no puede tener menos de 3 caracteres");
+            }
+            if (odontologo.getApellido().length() < 3) {
+                throw new IllegalArgumentException("el apellido no puede tener menos de 3 caracteres");
+            }
+
             return repository.save(odontologo);
-        } catch (Exception e){
+        } catch (Exception e) {
             Log4j.error(e.toString());
             throw e;
         }
@@ -70,6 +77,16 @@ public class OdontologoService implements IService<Odontologo> {
             Optional<Odontologo> isExists = getById(id);
             if (isExists.isEmpty()) {
                 throw new IllegalArgumentException("el ID ingresado no existe ");
+            }
+
+            if (odontologo.getMatricula() < 0) {
+                throw new IllegalArgumentException("la matricula no puede ser negativa");
+            }
+            if (odontologo.getNombre().length() < 3) {
+                throw new IllegalArgumentException("el nombre no puede tener menos de 3 caracteres");
+            }
+            if (odontologo.getApellido().length() < 3) {
+                throw new IllegalArgumentException("el apellido no puede tener menos de 3 caracteres");
             }
 
             Optional<Odontologo> odontologoExist = buscarPorMatricula(odontologo.getMatricula());
@@ -115,7 +132,7 @@ public class OdontologoService implements IService<Odontologo> {
 
     @Transactional
     public Optional<Odontologo> buscarPorMatricula(Integer matricula) {
-        try{
+        try {
             return repository.buscarPorMatricula(matricula);
         } catch (Exception exception) {
             Log4j.error(exception.toString());
