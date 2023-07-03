@@ -34,7 +34,7 @@ public class PacienteService implements IService<Paciente> {
 
     @Override
     @Transactional
-    public  Optional<Paciente> getById(Long id) {
+    public Optional<Paciente> getById(Long id) {
         try {
             return repository.findById(id);
         } catch (Exception e) {
@@ -53,7 +53,7 @@ public class PacienteService implements IService<Paciente> {
             if (isExists.isPresent()) {
                 throw new IllegalArgumentException("El DNI ya esta registrado");
             }
-            if(paciente.getDni()<0){
+            if (paciente.getDni() < 0) {
                 throw new IllegalArgumentException("el DNI no puede ser negativo");
             }
             paciente.setFechaDeAlta(LocalDate.now());
@@ -72,6 +72,10 @@ public class PacienteService implements IService<Paciente> {
             Optional<Paciente> isExists = getById(id);
             if (isExists.isEmpty()) {
                 throw new IllegalArgumentException("el ID ingresado no existe ");
+            }
+
+            if (paciente.getDni() < 0) {
+                throw new IllegalArgumentException("el DNI no puede ser negativo");
             }
 
             Optional<Paciente> pacienteExist = buscarPorDni(paciente.getDni());

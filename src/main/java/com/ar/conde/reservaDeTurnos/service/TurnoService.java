@@ -83,6 +83,10 @@ public class TurnoService implements IService<Turno> {
                 throw new IllegalArgumentException("La fecha no puede ser anterior al dia de hoy ");
             }
 
+            if (!repository.isTurnoAvailable(turno.getOdontologo().getId(), turno.getFechaTurno(), turno.getHora())) {
+                throw new IllegalArgumentException("El odontologo ya tiene asignado un turno en ese dia y a esa hora");
+            }
+
             turno.setFechaTurno(((LocalDate.parse(turno.getFechaTurno()))));
             turno.setHora(String.valueOf(LocalTime.parse(turno.getHora(), formatter)));
             Log4j.info("Turno creado");
