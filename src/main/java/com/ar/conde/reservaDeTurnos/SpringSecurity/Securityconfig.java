@@ -57,9 +57,8 @@ public class Securityconfig {
                                 .requestMatchers("/").permitAll()
                                 .requestMatchers("/adminsIndex.html").hasRole("ADMIN")
                                 .requestMatchers("/odontologosList.html").hasRole("ADMIN")
-                                .requestMatchers("/usersIndex.html").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/usersIndex.html").hasRole("USER")
 
-                                .requestMatchers(HttpMethod.GET,"/api/usuarioLogueado").permitAll()
 
                                 .requestMatchers(HttpMethod.GET, "/api/odontologos/").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers(HttpMethod.POST, "/api/odontologos/").hasRole("ADMIN")
@@ -68,7 +67,7 @@ public class Securityconfig {
 
 
                                 .requestMatchers(HttpMethod.POST, "/api/pacientes/").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/pacientes/").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/pacientes/").hasAnyRole("ADMIN","USER")
                                 .requestMatchers(HttpMethod.PUT, "/api/pacientes/").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/api/pacientes/").hasRole("ADMIN")
 
@@ -76,8 +75,8 @@ public class Securityconfig {
                                 .requestMatchers(HttpMethod.GET, "/api/usuarios/").hasRole("ADMIN")
 
                                 .requestMatchers(HttpMethod.GET, "/api/turnos/").hasAnyRole("ADMIN","USER")
-                                .requestMatchers(HttpMethod.POST, "/api/turnos/").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/turnos/").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/turnos/").hasRole("USER")
+                                .requestMatchers(HttpMethod.DELETE, "/api/turnos/").hasRole("USER")
                                 .requestMatchers(HttpMethod.PUT, "/api/turnos/").hasRole("ADMIN")
 
                                 .anyRequest().authenticated().and().formLogin().and().logout();

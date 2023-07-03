@@ -1,19 +1,12 @@
 window.addEventListener('load', function () {
 
-
-
-
-    //Buscamos y obtenemos el formulario donde estan
-    //los datos que el usuario pudo haber modificado del turno
     const formularioTurno = document.querySelector('#update_turno_form');
 
     formularioTurno.addEventListener('submit', function (event) {
    event.PreventDefault();
         let turnoId = document.querySelector('#turno_id').value;
 
-        //creamos un JSON que tendrá los datos del turno
-        //a diferencia de un turno nuevo en este caso enviamos el id
-        //para poder identificarlo y modificarlo para no cargarlo como nuevo
+
         const formData = {
             id: document.querySelector('#turno_id').value,
             odontologo: {
@@ -26,8 +19,7 @@ window.addEventListener('load', function () {
             hora: document.querySelector('#hora').value
         };
 
-        //invocamos utilizando la función fetch la API turnos con el método PUT que modificará
-        //el turno que enviaremos en formato JSON
+
         const url = '/api/turnos'+ "/" + turnoId;
         const settings = {
             method: 'PUT',
@@ -102,9 +94,6 @@ window.addEventListener('load', function () {
 
  })
 
-    //Es la funcion que se invoca cuando se hace click sobre el id de un turno del listado
-    //se encarga de llenar el formulario con los datos del turno
-    //que se desea modificar
 function findBy(id) {
 
 
@@ -125,7 +114,7 @@ function findBy(id) {
                   document.querySelector('#fecha').value = turno.fechaTurno;
                   document.querySelector('#hora').value = turno.hora;
 
-                  //el formulario por default esta oculto y al editar se habilita
+
                   document.querySelector('#div_turno_updating').style.display = "block";
               })
               .catch(error => {

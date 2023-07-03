@@ -25,13 +25,6 @@ public class UsuarioController extends CustomFieldException {
     @Autowired
     @Qualifier("usuario")
     private UsuarioService usuarioService;
-    @GetMapping("/usuarioLogueado")
-    public String mostrarPerfil(Model model, Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        model.addAttribute("username",userDetails.getUsername());
-        // Otros atributos del usuario que desees mostrar
-        return "perfil";
-    }
     @PostMapping("/")
     public ResponseEntity<?> create(@Valid @RequestBody Usuario body, BindingResult result) {
         try {
